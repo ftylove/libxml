@@ -977,7 +977,10 @@ static struct xml_element *xml_find_next_from(
 	FIND(last->next)
 
 	/* try other branches */
-	for (struct xml_element *p = last->parent; p && p->key;) {
+	struct xml_element *p = last->parent;
+	/* The temporary variable in for is supported by C99, and if -std=c99 
+	is added, the strndup function is not included to strndup cause an error */
+	for ( ; p && p->key;) {
 		if ((p = xml_find_next_from(p, path, prev))) {
 			FIND(p->first_child)
 		}
